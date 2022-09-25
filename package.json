@@ -1,0 +1,21 @@
+{
+  "name": "js_algo_data_structure",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vd89/js_algo_data_structure.git",
+  "author": "daxMarktine <dixit.vora@marktine.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "prettier": "^2.7.1",
+    "typescript": "*"
+  },
+  "scripts": {
+    "lint": "eslint . --fix"
+  }
+}
