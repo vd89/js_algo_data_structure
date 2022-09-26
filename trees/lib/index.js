@@ -12,6 +12,26 @@ function BinarySearchTree () {
   this._root = null
 }
 
+// Breath first search
+BinarySearchTree.prototype.traverseLevelOrder = function () {
+  const root = this._root
+  const queue = new Array(0)
+  if (!root) {
+    return queue
+  }
+  queue.push(root)
+  while (queue.length) {
+    const temp = queue.shift()
+    console.log(temp.value)
+    if (temp.left) {
+      queue.push(temp.left)
+    }
+    if (temp.right) {
+      queue.push(temp.right)
+    }
+  }
+}
+
 // insert the value
 BinarySearchTree.prototype.insert = function (_value) {
   const newNode = new BinaryTreeNode(_value)
@@ -106,4 +126,22 @@ BinarySearchTree.prototype.remove = function (_value) {
   }
 }
 
-module.exports = BinarySearchTree
+// AVL trees
+
+function AVLTree (_value) {
+  this.left = null
+  this.right = null
+  this.value = _value
+  this.depth = 1
+}
+
+// Set the depth on based Children
+// AVLTree.prototype.setDepthBasedOnChildren = function () {
+//  if (this.node) {
+
+//  } else {
+
+//  }
+// }
+
+module.exports = { AVLTree, BinarySearchTree }
