@@ -234,12 +234,136 @@ function AVLTree (_value) {
 }
 
 // Set the depth on based Children
-// AVLTree.prototype.setDepthBasedOnChildren = function () {
-//  if (this.node) {
+AVLTree.prototype.setDepthBasedOnChildren = function () {
+  if (this.node === null) {
+    this.depth = 1
+  }
+  if (this.left !== null) {
+    this.depth = this.left.depth + 1
+  }
+  if (this.right !== null && this.depth <= this.right.depth) {
+    this.depth = this.right.depth + 1
+  }
+}
+AVLTree.prototype.rotateLL = function () {
+  const valueBefore = this.value
+  const rightBefore = this.right
+  this.value = this.left.value
 
-//  } else {
+  this.right = this.left
+  this.left = this.left.left
+  this.right.left = this.right.right
+  this.right.right = rightBefore
+  this.right.value = valueBefore
 
-//  }
-// }
+  this.right.setDepthBasedOnChildren()
+  this.setDepthBasedOnChildren()
+}
+
+AVLTree.prototype.rotateRR = function () {
+  const valueBefore = this.value
+  const leftBefore = this.left
+  this.value = this.right.value
+
+  this.left = this.right
+  this.right = this.right.right
+  this.left.right = this.left.left
+  this.left.left = leftBefore
+  this.left.value = valueBefore
+
+  this.left.setDepthBasedOnChildren()
+  this.setDepthBasedOnChildren()
+}
+
+AVLTree.prototype.balance = function () {
+  const lDepth = this.left == null ? 0 : this.left.depth
+  const rDepth = this.right == null ? 0 : this.right.depth
+  if (lDepth > rDepth + 1) {
+    // LR or LL rotation
+    const llDepth = this.left.left == null ? 0 : this.left.left.depth
+    const lrDepth = this.left.right == null ? 0 : this.left.right.depth
+    if (llDepth < lrDepth) {
+      this.left.rotateRR()
+    }
+    this.rotateLL()
+  } else {
+    // RR or RL rotation
+    const rrDepth = this.right.right == null ? 0 : this.right.right.depth
+    const rlDepth = this.right.left == null ? 0 : this.right.left.depth
+    if (rlDepth > rrDepth) {
+      this.right.rotateLL()
+    }
+    this.rotateRR()
+  }
+}
+
+AVLTree.prototype.insert = function (value) {
+  let childInserted = false
+  if (value == this.value) {
+    return false // should be all unique
+  } else if (value < this.value) {
+    if (this.left == null) {
+      this.left = new AVLTree(value)
+      childInserted = true
+    } else {
+      childInserted = this.left.insert(value)
+      if (childInserted == true) this.balance()
+    }
+  } else if (value > this.value) {
+    if (this.right == null) {
+      this.right = new AVLTree(value)
+      childInserted = true
+    } else {
+      childInserted = this.right.insert(value)
+
+      if (childInserted == true) this.balance()
+    }
+  }
+  if (childInserted == true) this.setDepthBasedOnChildren()
+  return childInserted
+}
+
+AVLTree.prototype.remove = function (value) {
+  return deleteRecursively(this, value)
+
+  function deleteRecursively (root, value) {
+    if (!root) {
+      return null
+    } else if (value < root.value) {
+      root.left = deleteRecursively(root.left, value)
+    } else if (value > root.value) {
+      root.right = deleteRecursively(root.right, value)
+    } else {
+      // no child
+      if (!root.left && !root.right) {
+        return null // case 1
+      } else if (!root.left) {
+        root = root.right
+        return root
+      } else if (!root.right) {
+        root = root.left
+        return root
+      } else {
+        const temp = findMin(root.right)
+        root.value = temp.value
+        root.right = deleteRecursively(root.right, temp.value)
+        return root
+      }
+    }
+    root.setDepthBasedOnChildren() // ONLY DIFFERENCE from the BST one
+    return root
+  }
+
+  function findMin (root) {
+    while (root.left) root = root.left
+    return root
+  }
+}
+
+AVLTree.prototype.insertArr = function (_arr) {
+  for (const _item of _arr) {
+    this.insert(_item)
+  }
+}
 
 module.exports = { AVLTree, BinarySearchTree }

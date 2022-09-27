@@ -2,7 +2,7 @@
 //    41      50
 // 10    40  45   75
 
-const { BinarySearchTree } = require('./lib')
+const BinarySearchTree = require('./lib')
 
 const binaryTree = new BinarySearchTree()
 const _newArr = [42, 41, 10, 40, 50, 45, 75]
