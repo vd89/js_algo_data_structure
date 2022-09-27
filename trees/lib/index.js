@@ -32,6 +32,104 @@ BinarySearchTree.prototype.traverseLevelOrder = function () {
   }
 }
 
+// pre-order traversal
+// recursive
+BinarySearchTree.prototype.traversePreOrder = function () {
+  traversePreOrderHelper(this._root)
+  function traversePreOrderHelper (node) {
+    if (!node) {
+      return null
+    }
+    console.log(node.value)
+    traversePreOrderHelper(node.left)
+    traversePreOrderHelper(node.right)
+  }
+}
+
+BinarySearchTree.prototype.traversePreOrderIterative = function () {
+  const nodeStack = new Array(0)
+  nodeStack.push(this._root)
+  while (nodeStack.length) {
+    const node = nodeStack.pop()
+    if (node.right) {
+      nodeStack.push(node.right)
+    }
+    if (node.left) {
+      nodeStack.push(node.left)
+    }
+    console.log(node.value)
+  }
+  return nodeStack
+}
+
+// in-order traverse
+BinarySearchTree.prototype.traverseInOrder = function () {
+  traverseInOrderHelper(this._root)
+  function traverseInOrderHelper (node) {
+    if (!node) return null
+    traverseInOrderHelper(node.left)
+    console.log(node.value)
+    traverseInOrderHelper(node.right)
+  }
+}
+BinarySearchTree.prototype.traverseInOrderIterative = function () {
+  let current = this._root
+  const stack = new Array(0)
+  let done = false
+
+  while (!done) {
+    if (current !== null) {
+      stack.push(current)
+      // console.log(current.value)
+      current = current.left
+    } else {
+      if (stack.length) {
+        current = stack.pop()
+        console.log(current.value)
+        current = current.right
+      } else {
+        done = true
+      }
+    }
+  }
+}
+
+// post-order
+BinarySearchTree.prototype.traversePostOrder = function () {
+  traversePostOrderHelper(this._root)
+
+  function traversePostOrderHelper (node) {
+    if (node.left) { traversePostOrderHelper(node.left) }
+    if (node.right) { traversePostOrderHelper(node.right) }
+    console.log(node.value)
+  }
+}
+
+BinarySearchTree.prototype.traversePostOrderIterative = function () {
+  // Create two stacks
+  const s1 = new Array(0)
+  const s2 = new Array(0)
+
+  // Push root to first stack
+  s1.push(this._root)
+
+  // # Run while first stack is not empty
+  while (s1.length) {
+    // Pop an item from s1 and append it to s2
+    const node = s1.pop()
+    s2.push(node)
+
+    // Push left and right children of removed item to s1
+    if (node.left) { s1.push(node.left) }
+    if (node.right) { s1.push(node.right) }
+  }
+  // Print all eleements of second stack
+  while (s2.length) {
+    const node = s2.pop()
+    console.log(node.value)
+  }
+}
+
 // insert the value
 BinarySearchTree.prototype.insert = function (_value) {
   const newNode = new BinaryTreeNode(_value)
