@@ -3,12 +3,12 @@
 //   this.children = new Array()
 // }
 
-function BinaryTreeNode (_value) {
+function BinaryTreeNode(_value) {
   this.value = _value
   this.left = null
   this.right = null
 }
-function BinarySearchTree () {
+function BinarySearchTree() {
   this._root = null
 }
 
@@ -36,7 +36,7 @@ BinarySearchTree.prototype.traverseLevelOrder = function () {
 // recursive
 BinarySearchTree.prototype.traversePreOrder = function () {
   traversePreOrderHelper(this._root)
-  function traversePreOrderHelper (node) {
+  function traversePreOrderHelper(node) {
     if (!node) {
       return null
     }
@@ -65,7 +65,7 @@ BinarySearchTree.prototype.traversePreOrderIterative = function () {
 // in-order traverse
 BinarySearchTree.prototype.traverseInOrder = function () {
   traverseInOrderHelper(this._root)
-  function traverseInOrderHelper (node) {
+  function traverseInOrderHelper(node) {
     if (!node) return null
     traverseInOrderHelper(node.left)
     console.log(node.value)
@@ -98,9 +98,13 @@ BinarySearchTree.prototype.traverseInOrderIterative = function () {
 BinarySearchTree.prototype.traversePostOrder = function () {
   traversePostOrderHelper(this._root)
 
-  function traversePostOrderHelper (node) {
-    if (node.left) { traversePostOrderHelper(node.left) }
-    if (node.right) { traversePostOrderHelper(node.right) }
+  function traversePostOrderHelper(node) {
+    if (node.left) {
+      traversePostOrderHelper(node.left)
+    }
+    if (node.right) {
+      traversePostOrderHelper(node.right)
+    }
     console.log(node.value)
   }
 }
@@ -120,8 +124,12 @@ BinarySearchTree.prototype.traversePostOrderIterative = function () {
     s2.push(node)
 
     // Push left and right children of removed item to s1
-    if (node.left) { s1.push(node.left) }
-    if (node.right) { s1.push(node.right) }
+    if (node.left) {
+      s1.push(node.left)
+    }
+    if (node.right) {
+      s1.push(node.right)
+    }
   }
   // Print all eleements of second stack
   while (s2.length) {
@@ -191,7 +199,7 @@ BinarySearchTree.prototype.findNode = function (_value) {
 BinarySearchTree.prototype.remove = function (_value) {
   return deleteRecursively(this._root, _value)
 
-  function deleteRecursively (root, value) {
+  function deleteRecursively(root, value) {
     if (!root) return null
     if (value < root.value) {
       root.left = deleteRecursively(root.left, value)
@@ -203,7 +211,8 @@ BinarySearchTree.prototype.remove = function (_value) {
       } else if (!root.left) {
         root = root.right // case 2
         return root
-      } if (!root.right) {
+      }
+      if (!root.right) {
         root = root.left
         return root
       } else {
@@ -216,7 +225,7 @@ BinarySearchTree.prototype.remove = function (_value) {
     return root
   }
 
-  function findMin (root) {
+  function findMin(root) {
     while (root.left) {
       root = root.left
     }
@@ -226,7 +235,7 @@ BinarySearchTree.prototype.remove = function (_value) {
 
 // AVL trees
 
-function AVLTree (_value) {
+function AVLTree(_value) {
   this.left = null
   this.right = null
   this.value = _value
@@ -299,7 +308,7 @@ AVLTree.prototype.balance = function () {
 
 AVLTree.prototype.insert = function (value) {
   let childInserted = false
-  if (value == this.value) {
+  if (value === this.value) {
     return false // should be all unique
   } else if (value < this.value) {
     if (this.left == null) {
@@ -307,7 +316,7 @@ AVLTree.prototype.insert = function (value) {
       childInserted = true
     } else {
       childInserted = this.left.insert(value)
-      if (childInserted == true) this.balance()
+      if (childInserted === true) this.balance()
     }
   } else if (value > this.value) {
     if (this.right == null) {
@@ -316,17 +325,17 @@ AVLTree.prototype.insert = function (value) {
     } else {
       childInserted = this.right.insert(value)
 
-      if (childInserted == true) this.balance()
+      if (childInserted === true) this.balance()
     }
   }
-  if (childInserted == true) this.setDepthBasedOnChildren()
+  if (childInserted === true) this.setDepthBasedOnChildren()
   return childInserted
 }
 
 AVLTree.prototype.remove = function (value) {
   return deleteRecursively(this, value)
 
-  function deleteRecursively (root, value) {
+  function deleteRecursively(root, value) {
     if (!root) {
       return null
     } else if (value < root.value) {
@@ -354,7 +363,7 @@ AVLTree.prototype.remove = function (value) {
     return root
   }
 
-  function findMin (root) {
+  function findMin(root) {
     while (root.left) root = root.left
     return root
   }

@@ -1,5 +1,5 @@
-function findLowestCommonAncestor (_root, _val1, _val2) {
-  function findLowestCommonAncestorHelper (root, val1, val2) {
+function findLowestCommonAncestor(_root, _val1, _val2) {
+  function findLowestCommonAncestorHelper(root, val1, val2) {
     if (!root) return
     if (Math.max(val1, val2) < root.value) {
       return findLowestCommonAncestorHelper(root.left, val1, val2)
@@ -42,7 +42,7 @@ console.log(findLowestCommonAncestor(node1, 0, 2)) // 1
 console.log(findLowestCommonAncestor(node2, 0, 2)) // 1
 console.log(findLowestCommonAncestor(node1, 0.5, -1)) // 0
 
-function printKthLevels (root, k) {
+function printKthLevels(root, k) {
   const arrayKth = new Array(0)
   const queue = new Array(0)
 
@@ -56,7 +56,7 @@ function printKthLevels (root, k) {
     const temp = tuple[0]
     const height = tuple[1]
 
-    if (height == k) {
+    if (height === k) {
       arrayKth.push(temp.value)
     }
     if (temp.left) {
